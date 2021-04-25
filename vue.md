@@ -597,4 +597,64 @@ patch(oldVnode,h("!"))
 - 导入使用步骤
 - init（）中注册模块
 - h（）函数的第二个参数出使用模块
+
+```js
+import { init } from '../node_modules/snabbdom/build/package/init.js'
+import { h } from '../node_modules/snabbdom/build/package/h.js'
+// 1. 导入模块
  
+import { styleModule } from "../node_modules/snabbdom/build/package/modules/style.js"
+import { eventListenersModule } from "../node_modules/snabbdom/build/package/modules/eventlisteners.js"
+
+
+// 2. 注册模块
+const patch = init([ 
+    styleModule,
+    eventListenersModule
+ ])
+
+// 3.使用h()函数的第二个参数传入模块中使用的数据（对象）
+
+let vnode = h("div", [
+    h("h1", { style:{backgroundColor: "red"} },"Hello World"),
+    h("p", {on:{click: eventHandler}},"hello P")
+])
+
+function eventHandler () {
+    console.log("别点我 疼");
+}
+ let app = document.querySelector("#app")
+
+ patch(app,vnode)
+```
+
+### Snabbdom源码解析
+- 如何学习源码
+1. 宏观了解
+2. 带着目标看源码
+3. 看源码的过程要不求甚解
+4. 调式
+5. 参考资料
+#### Snabbdom的核心
+- init()设置模块，创建patch()函数
+- 使用h()函数创建JavaScript对象（VNode）描述真实DOM
+- patch()比较新旧两个Vnode
+- 把变化的内容更新到真实DOM树
+##### h函数介绍
+- 作用：创建VNode对象
+- Vue中的h函数
+- h函数最早见于hyperscript，使用JavaScrit创建超文本
+> 函数重载
+- 参数个数或参数类型不同的函数
+- JavaScript中没有重载的概念
+- TypeScript中有重载，不过重载的实现还是通过代码调整参数
+> 常用快捷键
+- 鼠标选中 F12 转到定义【或者 ctrl+鼠标左键】  alt +  <- (方向键左)  返回到之前的位置
+#### patch整体过程分析
+- patch(oldVnode,newVnode)
+- 把新节点中变化的内容渲染到真实的DOM，最后返回新节点作为下一次处理的旧节点
+- 对比新旧VNode是否相同节点（节点的key和sel相同）
+- 如果不是相同节点，删除之前的内容，重新渲染
+- 如果是相同节点，再判断新的VNode是否有text，如果有并且和oldVnode的text不同，直接更新文本内容
+- 如果新的VNode有children，判断子节点是否有变化
+#### init函数

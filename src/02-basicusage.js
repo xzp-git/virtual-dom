@@ -1,9 +1,9 @@
-import { init } from 'snabbdom/build/package/init'
-import { h } from 'snabbdom/build/package/h'
+import { init } from '../node_modules/snabbdom/build/package/init.js'
+import { h } from '../node_modules/snabbdom/build/package/h.js'
 // 1. 导入模块
  
-import { styleModule } from "snabbdom/build/package/style"
-import { eventListenersModule } from "snabbdom/build/package/eventlistenters"
+import { styleModule } from "../node_modules/snabbdom/build/package/modules/style.js"
+import { eventListenersModule } from "../node_modules/snabbdom/build/package/modules/eventlisteners.js"
 
 
 // 2. 注册模块
@@ -22,6 +22,14 @@ let vnode = h("div", [
 function eventHandler () {
     console.log("别点我 疼");
 }
+ let app = document.querySelector("#app")
+
+ patch(app,vnode)
+
+
+
+
+
 // let vnode = h("div#container", [
 //     h("h1","Hello Snabbdom"), 
 //     h("p","这是一个p")
