@@ -657,4 +657,9 @@ function eventHandler () {
 - 如果不是相同节点，删除之前的内容，重新渲染
 - 如果是相同节点，再判断新的VNode是否有text，如果有并且和oldVnode的text不同，直接更新文本内容
 - 如果新的VNode有children，判断子节点是否有变化
+> createEklm 函数
+- 作用 ： 把Vnode节点转换成对应的DOM元素，把DOM元素存储到Vnde上对应的elm属性上，并没有把创建的元素挂载到DOM树上。
+1. // 执行用户设置的 init 钩子函数
+2. // 把 vnode转换成真实的DOM对象（没有渲染到页面）
+3. // 返回新创建的DOM
 #### init函数
