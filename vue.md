@@ -662,4 +662,24 @@ function eventHandler () {
 1. // 执行用户设置的 init 钩子函数
 2. // 把 vnode转换成真实的DOM对象（没有渲染到页面）
 3. // 返回新创建的DOM
-#### init函数
+#### Diff算法
+- 虚拟DOM中的Diff算法
+查找两颗树每一个节点的差异
+- Snabbdom根据DOM的特点对传统的diff算法做了优化
+ - DOM操作时候很少会跨级别操作节点
+ - 只比较同级别的节点
+##### 开始和结束节点
+- 如果新旧开始节点是sameVnode（key 和 sel 相同）
+ - 调用patchVnode（）对比和更新节点
+ - 把旧开始和新开始索引往后移动oldStartIdx++/oldEndIdx++
+##### 旧开始节点/新结束节点
+- 调用patchVnode（）对比和更新节点
+- 把oldStartVnode对应的DOM元素，移动到右边，更新索引
+##### 旧结束节点/新开始节点
+- 调用patchVnode（）对比和更新节点
+- 把oldEndVnode对应的DOM元素，移动到左边，更新索引
+
+##### 非上述四种情况 对比Key值
+循环结束
+- 当旧节点的所有子节点先遍历完（oldStartIdx > oldEndIdx）,循环结束
+- 新节点的所有子节点先遍历完（newStartIdx > newEndIdx）,循环结束
